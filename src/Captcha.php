@@ -24,6 +24,8 @@ class Captcha{
 	static private $linecolor=false;
 	//像素点开启
 	static private $pixelstatus=false;
+	//默认保存 验证码 session 名称
+	static private $captchaname='hcgrzh_captcha_name';
 
 	//设置尺寸入口
 	public static function setconfig($config=array()){
@@ -53,6 +55,9 @@ class Captcha{
 		}
 		if(isset($config['linecolor'])){
 			self::$linecolor=$config['linecolor'];
+		}
+		if(isset($config['captchaname'])){
+			self::$captchaname=$config['captchaname'];
 		}
 	}
 	/**
@@ -159,7 +164,7 @@ class Captcha{
 		$codearr=self::strlength(self::$strlength);
 		$codeempty=$codearr['hash_empty'];
 		$code=$codearr['hash'];
-		$_SESSION['CodeYzm'] =md5(strtolower($code));
+		$_SESSION[self::$captchaname] =md5(strtolower($code));
 		//验证码居中位置设置
 		$start_x=ceil(self::$width/8);
 		$start_y=ceil(self::$height/4);
@@ -171,7 +176,7 @@ class Captcha{
 	}
 	public static function returnCode($code){
 		$curcode=md5(strtolower($code));
-		if($curcode==$_SESSION['CodeYzm']){
+		if($curcode==$_SESSION[self::$captchaname]){
 			return true;
 		}else{
 			return false;
