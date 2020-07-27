@@ -1,0 +1,18 @@
+{
+    "name": "hcgrzh/captcha",
+    "description": "captcha",
+    "type": "library",
+	"license": "MIT",
+    "authors": [
+        {
+            "name": "hcgrzh",
+            "email": "hc_179zy@163.com"
+        }
+    ],
+    "require": {},
+	"autoload": {
+		"psr-4": {
+			"hcgrzh\\captcha\\": "src"
+		}
+	}
+}
