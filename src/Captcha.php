@@ -182,5 +182,65 @@ class Captcha{
 			return false;
 		}
 	}
+	//base64
+	public static function baserun(){
+		$im=imagecreate(self::$width,self::$height) or W_ERROR('图片功能障碍!');
+		//背景颜色
+		if(self::$bgcolor===false){
+			$background_color=imagecolorallocate($im,rand(0,255),rand(0,255),rand(0,255));
+		}else{
+			$rgb_bgcolor=self::hex2rgb(self::$bgcolor);
+			$background_color=imagecolorallocate($im,$rgb_bgcolor['r'],$rgb_bgcolor['g'],$rgb_bgcolor['b']);
+		}
+		//字体颜色
+		if(self::$textcolor===false){
+			$text_color=imagecolorallocate($im,rand(0,255),rand(0,255),rand(0,255));
+		}else{
+			$rgb_text=self::hex2rgb(self::$textcolor);
+			$text_color=imagecolorallocate($im,$rgb_text['r'],$rgb_text['g'],$rgb_text['b']);
+		}
+
+		//线条颜色
+		if(self::$linecolor===false){
+			$line_color=imagecolorallocate($im,rand(0,255),rand(0,255),rand(0,255));
+		}else{
+			$rgb_line=self::hex2rgb(self::$linecolor);
+			$line_color=imagecolorallocate($im,$rgb_line['r'],$rgb_line['g'],$rgb_line['b']);
+		}
+		//绘制矩形
+		imagefilledrectangle($im,0,0,self::$width,self::$height,$line_color);
+
+
+		//像素点颜色
+		if(self::$pixelcolor===false){
+			$pixel_color=imagecolorallocate($im,rand(0,255),rand(0,255),rand(0,255));
+		}else{
+			$rgb_pixel=self::hex2rgb(self::$pixelcolor);
+			$pixel_color=imagecolorallocate($im,$rgb_pixel['r'],$rgb_pixel['g'],$rgb_pixel['b']);
+		}
+		//绘制像素点
+		if(self::$pixelstatus===true){
+			for($i=0;$i<200;$i++){
+				ImageSetPixel($im, rand(0,self::$width),rand(0,self::$height),$pixel_color);
+			}
+		}
+		$codearr=self::strlength(self::$strlength);
+		$codeempty=$codearr['hash_empty'];
+		$code=$codearr['hash'];
+		//验证码居中位置设置
+		$start_x=ceil(self::$width/8);
+		$start_y=ceil(self::$height/4);
+		imagestring($im,5,$start_x,$start_y,$codeempty,$text_color);
+		ob_start();
+		//显示图片
+		imagepng($im);
+		$contents=ob_get_contents();
+		ob_end_clean();
+		//摧毁图片
+		imagedestroy($im);
+		$return['code']=$code;
+		$return['basecode']="data:image/png;base64,".base64_encode($contents);
+		return $return;
+	}
 }
 ?>
