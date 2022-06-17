@@ -121,7 +121,7 @@ class Captcha{
 			//图片格式声明
 			header("Content-Type:image/png");
 		}
-		$im=imagecreate(self::$width,self::$height) or W_ERROR('图片功能障碍!');
+		$im=imagecreate(self::$width,self::$height);
 		//背景颜色
 		if(self::$bgcolor===false){
 			$background_color=imagecolorallocate($im,rand(0,255),rand(0,255),rand(0,255));
@@ -129,13 +129,8 @@ class Captcha{
 			$rgb_bgcolor=self::hex2rgb(self::$bgcolor);
 			$background_color=imagecolorallocate($im,$rgb_bgcolor['r'],$rgb_bgcolor['g'],$rgb_bgcolor['b']);
 		}
-		//字体颜色
-		if(self::$textcolor===false){
-			$text_color=imagecolorallocate($im,rand(0,255),rand(0,255),rand(0,255));
-		}else{
-			$rgb_text=self::hex2rgb(self::$textcolor);
-			$text_color=imagecolorallocate($im,$rgb_text['r'],$rgb_text['g'],$rgb_text['b']);
-		}
+		//用 $background_color 颜色填充图像
+		imagefill($im,0,0,$background_color);
 
 		//线条颜色
 		if(self::$linecolor===false){
@@ -161,6 +156,15 @@ class Captcha{
 				ImageSetPixel($im, rand(0,self::$width),rand(0,self::$height),$pixel_color);
 			}
 		}
+		
+		//字体颜色
+		if(self::$textcolor===false){
+			$text_color=imagecolorallocate($im,rand(0,255),rand(0,255),rand(0,255));
+		}else{
+			$rgb_text=self::hex2rgb(self::$textcolor);
+			$text_color=imagecolorallocate($im,$rgb_text['r'],$rgb_text['g'],$rgb_text['b']);
+		}
+		
 		$codearr=self::strlength(self::$strlength);
 		$codeempty=$codearr['hash_empty'];
 		$code=$codearr['hash'];
@@ -184,7 +188,7 @@ class Captcha{
 	}
 	//base64
 	public static function baserun(){
-		$im=imagecreate(self::$width,self::$height) or W_ERROR('图片功能障碍!');
+		$im=imagecreate(self::$width,self::$height);
 		//背景颜色
 		if(self::$bgcolor===false){
 			$background_color=imagecolorallocate($im,rand(0,255),rand(0,255),rand(0,255));
@@ -192,13 +196,8 @@ class Captcha{
 			$rgb_bgcolor=self::hex2rgb(self::$bgcolor);
 			$background_color=imagecolorallocate($im,$rgb_bgcolor['r'],$rgb_bgcolor['g'],$rgb_bgcolor['b']);
 		}
-		//字体颜色
-		if(self::$textcolor===false){
-			$text_color=imagecolorallocate($im,rand(0,255),rand(0,255),rand(0,255));
-		}else{
-			$rgb_text=self::hex2rgb(self::$textcolor);
-			$text_color=imagecolorallocate($im,$rgb_text['r'],$rgb_text['g'],$rgb_text['b']);
-		}
+		//用 $background_color 颜色填充图像
+		imagefill($im,0,0,$background_color);
 
 		//线条颜色
 		if(self::$linecolor===false){
@@ -224,6 +223,15 @@ class Captcha{
 				ImageSetPixel($im, rand(0,self::$width),rand(0,self::$height),$pixel_color);
 			}
 		}
+
+		//字体颜色
+		if(self::$textcolor===false){
+			$text_color=imagecolorallocate($im,rand(0,255),rand(0,255),rand(0,255));
+		}else{
+			$rgb_text=self::hex2rgb(self::$textcolor);
+			$text_color=imagecolorallocate($im,$rgb_text['r'],$rgb_text['g'],$rgb_text['b']);
+		}
+
 		$codearr=self::strlength(self::$strlength);
 		$codeempty=$codearr['hash_empty'];
 		$code=$codearr['hash'];
